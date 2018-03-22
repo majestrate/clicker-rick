@@ -15,9 +15,15 @@ func (c *DBConfig) Section() string {
 }
 
 func (c *DBConfig) Load(s *Section) error {
+	if s != nil {
+		c.Type = s.ValueOf("type")
+		c.URL = s.ValueOf("url")
+	}
 	return nil
 }
 
 func (c *DBConfig) Save(s *Section) {
+	s.Add("type", c.Type)
+	s.Add("url", c.URL)
 	return
 }

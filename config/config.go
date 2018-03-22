@@ -13,17 +13,22 @@ type Configurable interface {
 }
 
 type Config struct {
-	DB DBConfig
+	DB   DBConfig
+	HTTP HTTPConfig
 }
 
 var DefaultConfig = Config{
 	DB: DefaultDBConfig,
 }
 
-func (c Config) Save(fname string) (err error) {
-	confs := []Configurable{
-		&c.DB,
+func (c *Config) Configurables() []Configurable {
+	return []Configurable{
+		&c.DB, &c.HTTP,
 	}
+}
+
+func (c *Config) Save(fname string) (err error) {
+	confs := c.Configurables()
 	conf := configparser.NewConfiguration()
 	for idx := range confs {
 		s := conf.NewSection(confs[idx].Section())
@@ -33,13 +38,14 @@ func (c Config) Save(fname string) (err error) {
 	return
 }
 
-func (c Config) Load(fname string) error {
-	confs := []Configurable{
-		&c.DB,
-	}
+func (c *Config) Load(fname string) error {
+	confs := c.Configurables()
 	conf, err := configparser.Read(fname)
 	for idx := range confs {
-		s, _ := conf.Section(confs[idx].Section())
+		s, err := conf.Section(confs[idx].Section())
+		if err != nil {
+			return err
+		}
 		err = confs[idx].Load(s)
 		if err != nil {
 			return err

@@ -16,6 +16,7 @@ func (s *Server) HandleSignals(fname string) {
 	for {
 		sig := <-chnl
 		if sig == os.Interrupt {
+			logrus.Info("Closing...")
 			s.Close()
 			return
 		}
@@ -24,7 +25,7 @@ func (s *Server) HandleSignals(fname string) {
 			var conf config.Config
 			err := conf.Load(fname)
 			if err == nil {
-				err = s.Configure(conf)
+				err = s.Configure(&conf)
 			}
 			if err != nil {
 				logrus.Errorf("Failed to reconfigure: %s", err.Error())

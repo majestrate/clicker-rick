@@ -14,16 +14,16 @@ func main() {
 	if len(os.Args) > 1 {
 		fname = os.Args[1]
 	}
-	var conf config.Config
 	err := config.Ensure(fname)
 	if err != nil {
 		logrus.Fatalf("failed to generate configs: %s", err.Error())
 	}
+	var conf config.Config
 	err = conf.Load(fname)
 	if err != nil {
 		logrus.Fatalf("failed to load config: %s", err.Error())
 	}
-	err = serv.Configure(conf)
+	err = serv.Configure(&conf)
 	if err != nil {
 		logrus.Fatalf("failed to configure: %s", err.Error())
 	}
