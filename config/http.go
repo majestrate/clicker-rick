@@ -12,7 +12,10 @@ func (c *HTTPConfig) Section() string {
 }
 
 func (c *HTTPConfig) Load(s *Section) error {
-	if s != nil {
+	if s == nil {
+		c.Type = "tcp"
+		c.Addr = ":3000"
+	} else {
 		c.Type = s.Get("type", "tcp")
 		c.Addr = s.Get("addr", ":3000")
 	}
