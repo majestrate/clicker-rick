@@ -10,7 +10,7 @@ func main() {
 		return
 	}
 
-	conf := config.DefaultConfig
+	conf := &config.DefaultConfig
 	conf.Instance.Email = os.Args[1]
 	conf.Instance.Domain = os.Args[2]
 	conf.Assets.Root = os.Args[3]
