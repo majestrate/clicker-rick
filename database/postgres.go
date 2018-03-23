@@ -1,13 +1,17 @@
 package database
 
 import (
-	"database/sql"
+	//"fmt"
+	"github.com/jmoiron/sqlx"
+	"github.com/jmoiron/sqlx/reflectx"
 	_ "github.com/lib/pq"
 	"github.com/majestrate/apub"
+	"github.com/sirupsen/logrus"
+	"strings"
 )
 
 type PostgresDB struct {
-	conn     *sql.DB
+	conn     *sqlx.DB
 	Hostname string
 }
 
@@ -20,6 +24,19 @@ func (p *PostgresDB) Close() error {
 }
 
 func (p *PostgresDB) Init() error {
+	logrus.Info("Initialize database tables....")
+	/*
+		tables := map[string]string{
+			"actors": "",
+		}
+		table_order := []string{
+			"actors",
+		}
+
+		for _, table := range table_order {
+			p.conn.MustExec(fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s ( %s )", table, tables[table]))
+		}
+	*/
 	return nil
 }
 
@@ -37,6 +54,7 @@ func (p *PostgresDB) LocalPost(postid string) (post *apub.Post, err error) {
 }
 
 func (p *PostgresDB) LocalUser(username string) (user *apub.UserInfo, err error) {
+	logrus.Infof("find local user %s", username)
 	user = nil
 	return
 }
@@ -49,8 +67,10 @@ func newPostgresDB(url, localhostname string) (db *PostgresDB, err error) {
 	db = &PostgresDB{
 		Hostname: localhostname,
 	}
-	db.conn, err = sql.Open("postgres", url)
-	if err != nil {
+	db.conn, err = sqlx.Connect("postgres", url)
+	if err == nil {
+		db.conn.Mapper = reflectx.NewMapperFunc("json", strings.ToLower)
+	} else {
 		db = nil
 	}
 	return
