@@ -12,7 +12,7 @@ import (
 )
 
 type Server struct {
-	apub.APubHandler
+	handler    apub.APubHandler
 	db         database.Database
 	l          net.Listener
 	e          *gin.Engine
@@ -34,14 +34,14 @@ func (s *Server) Run() {
 	if err != nil {
 		logrus.Fatalf("failed init db: %s", err.Error())
 	}
-	s.Database = s.db
+	s.handler.Database = s.db
 
 	s.e = gin.Default()
 
 	s.e.LoadHTMLGlob(filepath.Join(s.AssetsRoot, "templates", "*.tmpl"))
 
 	// setup apub routes
-	s.SetupRoutes(func(path string, handler http.Handler) {
+	s.handler.SetupRoutes(func(path string, handler http.Handler) {
 		s.e.Any(path, gin.WrapH(handler))
 	}, func(subpath string, handler http.Handler) {
 		s.e.Group(subpath).Any("/:extra", gin.WrapH(handler))
