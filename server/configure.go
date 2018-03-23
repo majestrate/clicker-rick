@@ -7,6 +7,7 @@ import (
 
 func (s *Server) Configure(conf *config.Config) (err error) {
 
+	s.AssetsRoot = conf.Assets.Root
 	s.Name = conf.Instance.Domain
 
 	s.db, err = database.New(&conf.DB)

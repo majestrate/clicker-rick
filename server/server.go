@@ -1,6 +1,7 @@
 package server
 
 import (
+	"filepath"
 	"github.com/gin-gonic/gin"
 	"github.com/majestrate/apub"
 	"github.com/majestrate/clicker-rick/database"
@@ -12,10 +13,11 @@ import (
 
 type Server struct {
 	apub.APubHandler
-	db   database.Database
-	l    net.Listener
-	e    *gin.Engine
-	Name string
+	db         database.Database
+	l          net.Listener
+	e          *gin.Engine
+	Name       string
+	AssetsRoot string
 }
 
 func (s *Server) Close() error {
@@ -35,6 +37,8 @@ func (s *Server) Run() {
 	s.Database = s.db
 
 	s.e = gin.Default()
+
+	s.e.LoadHTMLGlob(filepath.Join(s.AssetsRoot, "templates", "*.tmpl"))
 
 	// setup apub routes
 	s.SetupRoutes(func(path string, handler http.Handler) {
