@@ -27,10 +27,12 @@ func (p *PostgresDB) ListFollowing(userid string) (following []*apub.UserInfo, e
 }
 
 func (p *PostgresDB) LocalPost(postid string) (post *apub.Post, err error) {
+	post = nil
 	return
 }
 
 func (p *PostgresDB) LocalUser(username string) (user *apub.UserInfo, err error) {
+	user = nil
 	return
 }
 
