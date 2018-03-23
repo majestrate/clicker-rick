@@ -14,12 +14,8 @@ func main() {
 	if len(os.Args) > 1 {
 		fname = os.Args[1]
 	}
-	err := config.Ensure(fname)
-	if err != nil {
-		logrus.Fatalf("failed to generate configs: %s", err.Error())
-	}
 	var conf config.Config
-	err = conf.Load(fname)
+	err := conf.Load(fname)
 	if err != nil {
 		logrus.Fatalf("failed to load config: %s", err.Error())
 	}
