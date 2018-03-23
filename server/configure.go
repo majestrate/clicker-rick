@@ -6,6 +6,9 @@ import (
 )
 
 func (s *Server) Configure(conf *config.Config) (err error) {
+
+	s.Name = conf.Instance.Domain
+
 	s.db, err = database.New(&conf.DB)
 	if s.l == nil {
 		// TODO: reconfigure listener on sighup if changed

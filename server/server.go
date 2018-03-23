@@ -12,9 +12,10 @@ import (
 
 type Server struct {
 	apub.APubHandler
-	db database.Database
-	l  net.Listener
-	e  *gin.Engine
+	db   database.Database
+	l    net.Listener
+	e    *gin.Engine
+	Name string
 }
 
 func (s *Server) Close() error {
@@ -46,7 +47,7 @@ func (s *Server) Run() {
 
 	// serve
 	for s.l != nil {
-		logrus.Infof("serving at %s", s.l.Addr())
+		logrus.Infof("serving at %s as %s", s.l.Addr(), s.Name)
 		err := http.Serve(s.l, s.e)
 		if err != nil {
 			logrus.Warnf("http.Serve(): %s", err.Error())
