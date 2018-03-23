@@ -13,8 +13,9 @@ type Configurable interface {
 }
 
 type Config struct {
-	DB   DBConfig
-	HTTP HTTPConfig
+	DB       DBConfig
+	HTTP     HTTPConfig
+	Instance InstanceConfig
 }
 
 var DefaultConfig = Config{
@@ -23,7 +24,7 @@ var DefaultConfig = Config{
 
 func (c *Config) Configurables() []Configurable {
 	return []Configurable{
-		&c.DB, &c.HTTP,
+		&c.DB, &c.HTTP, &c.Instance,
 	}
 }
 
