@@ -16,6 +16,7 @@ type Config struct {
 	DB       DBConfig
 	HTTP     HTTPConfig
 	Instance InstanceConfig
+	Assets   AssetsConfig
 }
 
 var DefaultConfig = Config{
@@ -24,7 +25,7 @@ var DefaultConfig = Config{
 
 func (c *Config) Configurables() []Configurable {
 	return []Configurable{
-		&c.DB, &c.HTTP, &c.Instance,
+		&c.DB, &c.HTTP, &c.Instance, &c.Assets,
 	}
 }
 
