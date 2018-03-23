@@ -46,6 +46,7 @@ func (s *Server) Run() {
 	}, func(subpath string, handler http.Handler) {
 		s.e.Group(subpath).Any("/:extra", gin.WrapH(handler))
 	})
+
 	// setup app routes
 	s.SetupAppRoutes()
 
