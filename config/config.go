@@ -40,6 +40,13 @@ func (c *Config) Save(fname string) (err error) {
 	return
 }
 
+func (c *Config) LoadDefault() {
+	confs := c.Configurables()
+	for idx := range confs {
+		confs[idx].Load(nil)
+	}
+}
+
 func (c *Config) Load(fname string) error {
 	confs := c.Configurables()
 	conf, err := configparser.Read(fname)
@@ -57,6 +64,7 @@ func (c *Config) Load(fname string) error {
 }
 
 func Ensure(fname string) (err error) {
+	DefaultConfig.LoadDefault()
 	err = DefaultConfig.Save(fname)
 	return
 }

@@ -14,6 +14,7 @@ func main() {
 	conf.Instance.Email = os.Args[1]
 	conf.Instance.Domain = os.Args[2]
 	conf.Assets.Root = os.Args[3]
+	conf.LoadDefault()
 	err := conf.Save(os.Args[4])
 	if err != nil {
 		panic(err)
