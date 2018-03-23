@@ -13,10 +13,10 @@ type Database interface {
 	Init() error
 }
 
-func New(conf *config.DBConfig) (db Database, err error) {
+func New(conf *config.DBConfig, hostname string) (db Database, err error) {
 	switch conf.Type {
 	case "postgres":
-		db, err = newPostgresDB(conf.URL)
+		db, err = newPostgresDB(conf.URL, hostname)
 	default:
 		err = fmt.Errorf("no such database type '%s'", conf.Type)
 	}

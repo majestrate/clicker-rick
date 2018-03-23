@@ -7,7 +7,12 @@ import (
 )
 
 type PostgresDB struct {
-	conn *sql.DB
+	conn     *sql.DB
+	Hostname string
+}
+
+func (p *PostgresDB) LocalHost() string {
+	return p.Hostname
 }
 
 func (p *PostgresDB) Close() error {
@@ -40,8 +45,10 @@ func (p *PostgresDB) LocalUserPosts(username string, offset int64, limit int) (p
 	return
 }
 
-func newPostgresDB(url string) (db *PostgresDB, err error) {
-	db = new(PostgresDB)
+func newPostgresDB(url, localhostname string) (db *PostgresDB, err error) {
+	db = &PostgresDB{
+		Hostname: localhostname,
+	}
 	db.conn, err = sql.Open("postgres", url)
 	if err != nil {
 		db = nil
