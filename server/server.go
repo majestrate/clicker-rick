@@ -1,13 +1,13 @@
 package server
 
 import (
-	"filepath"
 	"github.com/gin-gonic/gin"
 	"github.com/majestrate/apub"
 	"github.com/majestrate/clicker-rick/database"
 	"github.com/sirupsen/logrus"
 	"net"
 	"net/http"
+	"path/filepath"
 	"time"
 )
 
