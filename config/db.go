@@ -7,7 +7,7 @@ type DBConfig struct {
 
 var DefaultDBConfig = DBConfig{
 	Type: "postgres",
-	URL:  "host=/var/run/postgres",
+	URL:  "host=/var/run/postgresql",
 }
 
 func (c *DBConfig) Section() string {
