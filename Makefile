@@ -1,4 +1,7 @@
+
+GIT ?= $(shell which git)
+
 all: update
 
 update:
-	git pull
+ $(GIT) pull
