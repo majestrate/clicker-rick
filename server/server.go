@@ -1,13 +1,11 @@
 package server
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/majestrate/apub"
 	"github.com/majestrate/clicker-rick/database"
 	"github.com/sirupsen/logrus"
 	"net"
 	"net/http"
-	"path/filepath"
 	"time"
 )
 
@@ -15,7 +13,7 @@ type Server struct {
 	handler    apub.APubHandler
 	db         database.Database
 	l          net.Listener
-	e          *gin.Engine
+	e          *Engine
 	Name       string
 	AssetsRoot string
 }
@@ -36,15 +34,11 @@ func (s *Server) Run() {
 	}
 	s.handler.Database = s.db
 
-	s.e = gin.Default()
-
-	s.e.LoadHTMLGlob(filepath.Join(s.AssetsRoot, "templates", "*.tmpl"))
-
 	// setup apub routes
 	s.handler.SetupRoutes(func(path string, handler http.Handler) {
-		s.e.Any(path, gin.WrapH(handler))
+		s.e.Any(path, WrapH(handler))
 	}, func(subpath string, handler http.Handler) {
-		s.e.Group(subpath).Any("/:extra", gin.WrapH(handler))
+		s.e.Group(subpath).Any("/:extra", WrapH(handler))
 	})
 
 	// setup app routes
