@@ -5,6 +5,7 @@ import (
 )
 
 func (s *Server) SetupRoutes() {
+	s.e.NoRoute(s.NotFound)
 	s.e.GET("/", s.ServeIndex)
 	s.e.Static("/static/", filepath.Join(s.AssetsRoot, "static"))
 
