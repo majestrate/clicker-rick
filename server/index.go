@@ -1,11 +1,5 @@
 package server
 
-import (
-	"net/http"
-)
-
 func (s *Server) ServeIndex(c *Context) {
-	c.HTML(http.StatusOK, "index.html", H{
-		"SiteName": s.Name,
-	})
+	c.HTML(OK, "index.html", s.DefaultParams())
 }

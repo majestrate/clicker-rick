@@ -42,7 +42,7 @@ func (s *Server) Run() {
 	})
 
 	// setup app routes
-	s.SetupAppRoutes()
+	s.SetupRoutes()
 
 	// serve
 	for s.l != nil {
