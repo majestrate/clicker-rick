@@ -25,7 +25,7 @@ func (s *Server) HandleSignals(fname string) {
 			var conf config.Config
 			err := conf.Load(fname)
 			if err == nil {
-				log.Infof("Loaded %s", fname)
+				logrus.Infof("Loaded %s", fname)
 				err = s.Configure(&conf)
 			}
 			if err == nil {
