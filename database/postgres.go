@@ -40,11 +40,11 @@ func (p *PostgresDB) Init() error {
 	return nil
 }
 
-func (p *PostgresDB) ListFollowers(userid string) (followers []*apub.UserInfo, err error) {
+func (p *PostgresDB) ListFollowers(userid string) (followers []apub.User, err error) {
 	return
 }
 
-func (p *PostgresDB) ListFollowing(userid string) (following []*apub.UserInfo, err error) {
+func (p *PostgresDB) ListFollowing(userid string) (following []apub.User, err error) {
 	return
 }
 
@@ -53,7 +53,7 @@ func (p *PostgresDB) LocalPost(postid string) (post *apub.Post, err error) {
 	return
 }
 
-func (p *PostgresDB) LocalUser(username string) (user *apub.UserInfo, err error) {
+func (p *PostgresDB) LocalUser(username string) (user apub.User, err error) {
 	logrus.Infof("find local user %s", username)
 	user = nil
 	return
