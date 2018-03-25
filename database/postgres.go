@@ -50,7 +50,6 @@ func (p *PostgresDB) LocalPost(postid string) (post *apub.Post, err error) {
 }
 
 func (p *PostgresDB) LocalUser(username string) (user apub.User, err error) {
-	logrus.Infof("find local user %s", username)
 	var users []User
 	err = p.conn.Select(&users, "SELECT * FROM local_users WHERE name=$1 LIMIT 1", username)
 	if err == nil && len(users) > 0 {

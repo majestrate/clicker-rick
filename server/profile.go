@@ -1,5 +1,7 @@
 package server
 
+import "github.com/majestrate/apub"
+
 func (s *Server) ServeUserProfile(c *Context) {
 	username := c.Param("username")
 	u, err := s.db.LocalUser(username)
@@ -9,6 +11,11 @@ func (s *Server) ServeUserProfile(c *Context) {
 	}
 	if u == nil {
 		s.NotFound(c)
+		return
+	}
+	if WantsActivityPub(c) {
+		c.Header("Content-Type", apub.ContentType)
+		c.JSON(OK, u)
 		return
 	}
 	p := s.DefaultParams()
