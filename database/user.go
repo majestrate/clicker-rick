@@ -35,5 +35,5 @@ func (u User) TableName() string {
 }
 
 func (u User) TableDef() string {
-	return "id BIG SERIAL PRIMARY KEY, privkey TEXT NOT NULL, email VARCHAR(255) NOT NULL, login VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, nick VARCHAR(255) NOT NULL, profile TEXT NOT NULL, inserted_at TIMESTAMP DEFAULT current_timestamp, updated_at TIMESTAMP NOT NULL, apid VARCHAR(255), avatar JSONB NOT NULL, info JSONB NOT NULL follower_address VARCHAR(255) NOT NULL, following VARCHAR(255)[]"
+	return "id SERIAL PRIMARY KEY, privkey TEXT NOT NULL, email VARCHAR(255) NOT NULL, login VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, nick VARCHAR(255) NOT NULL, profile TEXT NOT NULL, inserted_at TIMESTAMP DEFAULT current_timestamp, updated_at TIMESTAMP NOT NULL, apid VARCHAR(255), avatar JSONB NOT NULL, info JSONB NOT NULL follower_address VARCHAR(255) NOT NULL, following VARCHAR(255)[]"
 }

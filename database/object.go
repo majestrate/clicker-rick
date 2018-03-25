@@ -10,5 +10,5 @@ func (o Object) TableName() string {
 }
 
 func (o Object) TableDef() string {
-	return "id BIG SERIAL PRIMARY KEY, data JSONB NOT NULL"
+	return "id SERIAL PRIMARY KEY, data JSONB NOT NULL"
 }

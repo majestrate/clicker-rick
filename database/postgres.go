@@ -28,7 +28,9 @@ func (p *PostgresDB) Init() error {
 	entities := []Model{User{}, Object{}}
 
 	for idx := range entities {
-		p.conn.MustExec(fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s ( %s )", entities[idx].TableName(), entities[idx].TableDef()))
+		q := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s ( %s )", entities[idx].TableName(), entities[idx].TableDef())
+		logrus.Infof("query: %s", q)
+		p.conn.MustExec(q)
 	}
 
 	return nil
