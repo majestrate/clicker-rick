@@ -19,10 +19,9 @@ type User struct {
 	Info            JSONObject `json:"info"`
 	FollowerAddress string     `json:"follower_address"`
 	Following       []string   `json:"following"`
-	PostsMade       []Object   `json:"-"`
 }
 
-func (u User) ToInfo() *apub.UserInfo {
+func (u User) UserInfo() *apub.UserInfo {
 	i := &apub.UserInfo{
 		UserName: u.Name,
 	}

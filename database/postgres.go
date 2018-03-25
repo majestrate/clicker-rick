@@ -54,7 +54,7 @@ func (p *PostgresDB) LocalUser(username string) (user apub.User, err error) {
 	var users []User
 	err = p.conn.Select(&users, "SELECT * FROM local_users WHERE name=$1 LIMIT 1", username)
 	if err == nil && len(users) > 0 {
-		user = users[0].ToInfo()
+		user = users[0].UserInfo()
 	}
 	return
 }
