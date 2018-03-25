@@ -1,7 +1,7 @@
 package database
 
 import (
-	//"fmt"
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/jmoiron/sqlx/reflectx"
 	_ "github.com/lib/pq"
@@ -25,18 +25,12 @@ func (p *PostgresDB) Close() error {
 
 func (p *PostgresDB) Init() error {
 	logrus.Info("Initialize database tables....")
-	/*
-		tables := map[string]string{
-			"actors": "",
-		}
-		table_order := []string{
-			"actors",
-		}
+	entities := []Model{User{}, Object{}}
 
-		for _, table := range table_order {
-			p.conn.MustExec(fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s ( %s )", table, tables[table]))
-		}
-	*/
+	for idx := range entities {
+		p.conn.MustExec(fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s ( %s )", entities[idx].TableName(), entities[idx].TableDef()))
+	}
+
 	return nil
 }
 
@@ -55,7 +49,11 @@ func (p *PostgresDB) LocalPost(postid string) (post *apub.Post, err error) {
 
 func (p *PostgresDB) LocalUser(username string) (user apub.User, err error) {
 	logrus.Infof("find local user %s", username)
-	user = nil
+	var users []User
+	err = p.conn.Select(&users, "SELECT * FROM local_users WHERE name=$1 LIMIT 1", username)
+	if err == nil && len(users) > 0 {
+		user = users[0].ToInfo()
+	}
 	return
 }
 
